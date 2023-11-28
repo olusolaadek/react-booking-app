@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function UserPicker() {
-  return <div>UserPicker</div>;
+  return <select name="" id=""><option>Users</option></select>;
 }
