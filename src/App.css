@@ -41,7 +41,8 @@ header a.btn {
   width: 9rem;
 }
 
-.btn {
+.btn,
+button {
   background: var(--button-bg);
   color: var(--light-text);
   border: none;

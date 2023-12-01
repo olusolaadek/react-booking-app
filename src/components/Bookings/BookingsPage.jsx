@@ -1,5 +1,11 @@
 import React from "react";
+import WeekPicker from "./WeekPicker";
 
 export default function BookingsPage() {
-  return <div>BookingsPage</div>;
+  return (
+    <main className="bookings-page">
+      <p>Bookings!</p>
+      <WeekPicker date={new Date()} />
+    </main>
+  );
 }

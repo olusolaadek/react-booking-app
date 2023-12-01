@@ -1,10 +1,10 @@
 import { getWeek } from "../../utils/date-wrangler";
 export default function reducer(state, action) {
-  switch (action.key) {
+  switch (action.type) {
     case "NEXT_WEEK":
       return getWeek(state.date, 7);
     case "PREV_WEEK":
-      return getWeek(state.date - 7);
+      return getWeek(state.date, -7);
     case "TODAY":
       return getWeek(new Date());
     case "SET_DATE":
