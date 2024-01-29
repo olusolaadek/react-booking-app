@@ -1,31 +1,49 @@
-import { useState, Fragment, useReducer } from "react";
+import { useState, useEffect, Fragment, useReducer } from "react";
 // import { bookables } from "../../static.json";
-import { data } from "../../data";
+// import { data } from "../../data";
+import { default as data } from "../../static.json";
+// import { sessions, days } from "../../static.json";
+
 import { FaArrowRight } from "react-icons/fa";
 
 import reducer, { ACTION_TYPES } from "./reducer";
+import getData from "../../utils/api";
+import Spinner from "../UI/Spinner";
 // const bookables = data.bookables;
+const sessions = data.sessions;
+const days = data.days;
 
 const initialState = {
   group: "Rooms",
   bookableIndex: 0,
   hasDetails: true,
-  bookables: [],
+  bookables: [], // Set bookables to an empty array.
   isLoading: true,
   error: false,
 };
 
 export default function BookablesList() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { group, bookableIndex, bookables, hasDetails } = state; // destructure state
-  // const [group, setGroup] = useState("Kit");
-  // const bookables = data.bookables;
-  // const [bookableIndex, setBookableIndex] = useState(0);
-  // const [hasDetails, setHasDetails] = useState(false);
+  const { group, bookableIndex, bookables } = state; // destructure the new state
+  const { hasDetails, isLoading, error } = state; // destructure the new state
+
   const bookablesInGroup = bookables.filter((b) => b.group === group); // bookables.filter((b) => b.group === group);
+  const bookable = bookablesInGroup[bookableIndex];
   const groups = [...new Set(bookables.map((b) => b.group))];
 
-  const bookable = bookablesInGroup[bookableIndex];
+  useEffect(() => {
+    dispatch({ type: ACTION_TYPES.FETCH_BOOKABLES_REQUEST });
+    getData("http://localhost:3001/bookables")
+      .then((bookables) =>
+        dispatch({
+          type: ACTION_TYPES.FETCH_BOOKABLES_SUCCESS,
+          payload: bookables,
+        })
+      )
+      .catch((error) =>
+        dispatch({ type: ACTION_TYPES.FETCH_BOOKABLES_ERROR, payload: error })
+      );
+  }, []);
 
   function changeBookable(selectedIndex) {
     dispatch({ type: ACTION_TYPES.SET_BOOKABLE, payload: selectedIndex });
@@ -46,6 +64,18 @@ export default function BookablesList() {
   const toggleDetails = () => {
     dispatch({ type: ACTION_TYPES.TOGGLE_HAS_DETAILS });
   };
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
+  if (isLoading) {
+    return (
+      <p>
+        <Spinner /> loading bookables...
+      </p>
+    );
+  }
   return (
     <>
       <div>
@@ -110,12 +140,12 @@ export default function BookablesList() {
                   <div className="bookable-availability">
                     <ul>
                       {bookable.days.sort().map((d) => (
-                        <li key={d}>{data.days[d]}</li>
+                        <li key={d}>{days[d]}</li>
                       ))}
                     </ul>
                     <ul>
                       {bookable.sessions.map((s) => (
-                        <li key={s}>{data.sessions[s]}</li>
+                        <li key={s}>{sessions[s]}</li>
                       ))}
                     </ul>
                   </div>
