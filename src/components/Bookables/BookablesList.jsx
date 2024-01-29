@@ -4,13 +4,15 @@ import { data } from "../../data";
 import { FaArrowRight } from "react-icons/fa";
 
 import reducer, { ACTION_TYPES } from "./reducer";
-const bookables = data.bookables;
+// const bookables = data.bookables;
 
 const initialState = {
   group: "Rooms",
   bookableIndex: 0,
   hasDetails: true,
-  bookables: bookables,
+  bookables: [],
+  isLoading: true,
+  error: false,
 };
 
 export default function BookablesList() {

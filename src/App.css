@@ -203,3 +203,13 @@ main {
 .date-picker button {
   width: 8em;
 }
+
+.page-loading {
+  font-size: 300%;
+}
+.icon-loading {
+  animation: spin 1.5s linear infinite;
+}
+header .icon-loading {
+  color: white;
+}

@@ -145,6 +145,13 @@
             "img": "user4.png",
             "title": "Devil's Advocate Advocate",
             "notes": "Sanjiv lives your life to better understand your power-tantrums and architect empathic growth journeys that break the shell and distribute the yoke company-wide."
+        },
+        {
+            "id": 5,
+            "name": "Olusola",
+            "img": "user5.png",
+            "title": "Taking Development to the next level",
+            "notes": "Olusola lives your life to better understand your power-tantrums and architect empathic growth journeys that break the shell and distribute the yoke company-wide."
         }
     ],
     "bookings": []
