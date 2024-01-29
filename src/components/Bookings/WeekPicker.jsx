@@ -3,12 +3,7 @@ import reducer from "./weekReducer";
 import { getWeek } from "../../utils/date-wrangler";
 import { useReducer } from "react";
 import { ACTIONS } from "./weekReducer";
-import {
-  FaLessThan,
-  FaCalendarWeek,
-  FaChevronLeft,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaCalendarWeek, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const WeekPicker = ({ date = new Date() }) => {
   const [week, dispatch] = useReducer(reducer, date, getWeek);
