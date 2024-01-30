@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment, useReducer } from "react";
+import { useEffect, Fragment, useReducer, useRef } from "react";
 // import { bookables } from "../../static.json";
 // import { data } from "../../data";
 import { default as data } from "../../static.json";
@@ -30,6 +30,9 @@ export default function BookablesList() {
   const bookablesInGroup = bookables.filter((b) => b.group === group); // bookables.filter((b) => b.group === group);
   const bookable = bookablesInGroup[bookableIndex];
   const groups = [...new Set(bookables.map((b) => b.group))];
+  //
+  const timerRef = useRef(null);
+  const nextBtnRef = useRef();
 
   useEffect(() => {
     dispatch({ type: ACTION_TYPES.FETCH_BOOKABLES_REQUEST });
@@ -45,20 +48,29 @@ export default function BookablesList() {
       );
   }, []);
 
+  useEffect(() => {}, []);
+
+  function stopPresentation() {
+    clearInterval(timerRef.current);
+  }
+
   function changeBookable(selectedIndex) {
     dispatch({ type: ACTION_TYPES.SET_BOOKABLE, payload: selectedIndex });
+    nextBtnRef.current.focus();
     // setBookableIndex(selectedIndex);
     // console.log(selectedIndex);
   }
 
   function changeGroup(event) {
     dispatch({ type: ACTION_TYPES.SET_GROUP, payload: event.target.value });
+    nextBtnRef.current.focus();
     // setGroup(event.target.value);
     // setBookableIndex(0);
   }
 
   function nextBookable() {
     dispatch({ type: ACTION_TYPES.NEXT_BOOKABLE });
+
     // setBookableIndex((i) => (i + 1) % bookablesInGroup.length);
   }
   const toggleDetails = () => {
@@ -108,7 +120,12 @@ export default function BookablesList() {
           ))}
         </ul>
         <p>
-          <button className="btn" onClick={nextBookable} autoFocus>
+          <button
+            className="btn"
+            ref={nextBtnRef}
+            onClick={nextBookable}
+            autoFocus
+          >
             <FaArrowRight />
             <span>Next</span>
           </button>
@@ -130,6 +147,9 @@ export default function BookablesList() {
                     />
                     Show Details
                   </label>
+                  <button className="btn" onClick={stopPresentation}>
+                    Stop
+                  </button>
                 </span>
               </div>
               <p>{bookable.notes}</p>

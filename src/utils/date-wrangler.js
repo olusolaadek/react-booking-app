@@ -1,4 +1,5 @@
 export function addDays(date, daysToAdd) {
+  console.log("Date: ", date);
   const clone = new Date(date.getTime());
   clone.setDate(clone.getDate() + daysToAdd);
   return clone;
